@@ -69,7 +69,7 @@
      (cons old (cons new (insertR new old (cdr lat)))))
     (else (cons (car lat) (insertR new old (cdr lat))))))
 
-;; my super-shortend version
+;; my super-shortend version using let
 
 (define (insertR new old lat)
   (let ((rec (lambda ()(insertR new old (cdr lat)))))
@@ -78,3 +78,14 @@
     ((eq? old (car lat))
      (cons old (cons new (rec))))
     (else (cons (car lat) (rec))))))
+
+;; my shorter version, using inline define, even better!
+
+(define (insertR new old lat)
+  (define (rec)
+    (insertR new old (cdr lat)))
+  (cond 
+    ((null? lat) '())
+    ((eq? old (car lat))
+     (cons old (cons new (rec))))
+    (else (cons (car lat) (rec)))))
